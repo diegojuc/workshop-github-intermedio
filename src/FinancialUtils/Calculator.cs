@@ -113,4 +113,18 @@ public static class Calculator
 
         return Math.Round(npv, 2, MidpointRounding.AwayFromZero);
     }
+
+    public static decimal MonthlyPayment(decimal principal, decimal annualRate, int months)
+    {
+        if (months <= 0)
+            throw new ArgumentOutOfRangeException(nameof(months), "El plazo debe ser positivo.");
+
+        if (annualRate == 0)
+            return principal / months;
+
+        var monthlyRate = annualRate / 12m;
+        var factor = (decimal)Math.Pow(1 + (double)monthlyRate, months);
+
+        return principal * monthlyRate * factor / (factor - 1);
+    }
 }
